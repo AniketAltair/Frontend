@@ -60,7 +60,7 @@ export default function DesktopMenu({ menu, onTouchStart, activeMenu }) {
       </span>
       {hasSubMenu && (
         <motion.div
-          className="sub-menu"
+          className="sub-menu bg-white"
           initial="exit"
           animate={isHover || (activeMenu===menu.name) ? "enter" : "exit"} // Toggle based on hover or active menu
           variants={subMenuAnimate}

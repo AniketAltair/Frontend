@@ -34,10 +34,18 @@ import FindGyms from "./components/services/findGyms/findgyms";
 import Assistant from "./components/services/assistant/assistant";
 import Premium from "./components/services/premium/premium";
 import Profile from "./components/commonPages/profile/profile";
+import { TranslationProvider } from './components/common/translationContext/translationContext';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Role from "./components/auth/role";
 
 export default function App() {
+
+  const CLIENT_ID = "807754317749-0dipdsikvecv8v44j0sp6mdh5gje1cie.apps.googleusercontent.com";
+
   return (
     <>
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <TranslationProvider>
     <Navbar/>
     <Routes>
       
@@ -48,6 +56,7 @@ export default function App() {
       <Route path="/signin" element={<SignIn/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+      <Route path="/signup/role" element={<Role/>}/>
 
       {/* Common pages path*/}
       <Route path="/aboutapp" element={<AboutApp/>}/>
@@ -93,6 +102,8 @@ export default function App() {
       <Route path="/premium" element={<Premium/>}/>
       
     </Routes>
+    </TranslationProvider>
+    </GoogleOAuthProvider>
     </>
   );
 }

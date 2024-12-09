@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import Loading from "../common/loading/loading";
-import { useNavigate } from "react-router-dom";
-import {motion} from "framer-motion";
 
-const ForgotPassword = () => {
-
-  const navigate = useNavigate();
-
+const ChangePasswordPopUp = ({ onClose,setIsLoading }) => {
   const [toastMessage, setToastMessage] = useState(""); // Consolidated message state
   const [toastType, setToastType] = useState(""); // Tracks success or error
   const [otp, setOtp] = useState("");
@@ -16,7 +10,6 @@ const ForgotPassword = () => {
   const [isOtpSent, setIsOtpSent] = useState(false); // Tracks OTP sent state
   const [isOtpConfirmed, setIsOtpConfirmed] = useState(false); // Tracks OTP confirmation state
   const [isPasswordSaved,setisPasswordSaved] = useState(false);
-  const [isLoading,setIsLoading] = useState(false);
 
 
   const handleOTPpresentinDB = () =>{
@@ -27,7 +20,6 @@ const ForgotPassword = () => {
           setIsLoading(false);
           resolve(true); 
         }, 1000); 
-        
       });
   }
 
@@ -81,9 +73,9 @@ const ForgotPassword = () => {
           resolve(true); 
         }, 3000); 
         setTimeout(() => {
-          navigate("/signin");
-          resolve(true); 
-        }, 5000); 
+            onClose();
+            resolve(true); 
+          }, 6000); 
       });
       
   }
@@ -107,19 +99,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <motion.div
-      initial={{ x: "-100vw" }}
-      animate={{ x: 0 }}
-      transition={{ type: "spring", stiffness: 50 }}
-      className="font-cursive"
-    >
-    <div className="font-cursive flex items-center justify-center min-h-screen bg-gray-100 px-4">
-    {isLoading && <Loading/>}
-    <div className="border-2 border-red-500 bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+      <div className="border-2 border-red-500 bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
         {/* Toast Message */}
         {toastMessage && (
           <div
-            className={`absolute top-0 left-0 right-0 text-white text-center py-2 rounded-lg ${
+            className={`absolute top-0 left-0 right-0 text-white text-center py-2 rounded-t-lg ${
               toastType === "success" ? "bg-green-500" : "bg-red-500"
             }`}
           >
@@ -192,7 +177,7 @@ const ForgotPassword = () => {
         </div>
 
         {/* Save and Cancel Buttons */}
-        <div className="flex justify-center items-center">
+        <div className="flex justify-between items-center">
           <button
             onClick={handleSave}
             className="border-2 border-black py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600"
@@ -200,20 +185,16 @@ const ForgotPassword = () => {
           >
             Save
           </button>
+          <button
+            onClick={onClose}
+            className="border-2 border-black py-2 px-4 bg-white-300 text-black rounded-lg hover:bg-red-200"
+          >
+            Cancel
+          </button>
         </div>
-
-        <div className="text-center">
-          <p 
-            onClick={()=>navigate("/signin")}
-            className="mt-2 text-sm text-blue-500 cursor-pointer hover:underline">
-            Back to login?
-          </p>
-        </div>
-
       </div>
-      </div>
-      </motion.div>
+    </div>
   );
 };
 
-export default ForgotPassword;
+export default ChangePasswordPopUp;

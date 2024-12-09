@@ -56,7 +56,7 @@ export default function MobMenu({ Menus }) {
       </button>
 
       <motion.div
-        className="font-cursive fixed left-0 right-0 top-16 overflow-y-auto h-full backdrop-blur text-white p-6 pb-20"
+        className="font-cursive fixed left-0 right-0 top-16 overflow-y-auto h-full backdrop-blur-lg bg-black bg-opacity-50 text-white p-6 pb-20 z-[999]"
         initial={{ x: "-100%" }}
         animate={{ x: isOpen ? "0%" : "-100%" }}
       >
@@ -66,7 +66,7 @@ export default function MobMenu({ Menus }) {
             const hasSubMenu = subMenu?.length;
 
             return (
-              <li key={name} className="mb-4">
+              <li key={name} className="relative mb-4 z-[999]">
                 <span
                   className={`flex-center-between p-4 rounded-md cursor-pointer relative bg-white text-black border-2 border-red-600 shadow-xl`}
                   onClick={() => setClicked(isClicked ? null : i)}
@@ -91,7 +91,7 @@ export default function MobMenu({ Menus }) {
                     {subMenu.map(({ name, icon: Icon, componentPath }) => (
                       <li
                         key={name}
-                        className={`p-2 flex-center gap-x-2 cursor-pointer rounded-md bg-white text-black border-2 border-red-600 mt-1`}
+                        className={`p-2 flex-center gap-x-2 cursor-pointer rounded-md bg-white text-black border-2 border-red-600 mt-1 z-[999]`}
                         onClick={(event) => handleNavigation(event, componentPath)}
                       >
                         <Icon size={17} className={`text-red-500`} />

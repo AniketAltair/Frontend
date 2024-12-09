@@ -11,6 +11,9 @@ module.exports = {
       scale: {
         130: '1.3', 
       },
+      screens: {
+        'below-400': { max: '400px' },
+      },
     },
   },
   plugins: [],

@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const getUserRole = () => {
     // write logic to get user role
-    return 5;
+    return 1;
   }
 
   const getNotifications = () => {
@@ -89,12 +89,10 @@ const Navbar = () => {
     }
   }, [])
 
- 
-
   return (
     <div className="mb-16">
-      <header className="h-16 text-[15px] fixed inset-0 flex-center bg-red-800 mb-16">
-        <nav className="px-3.5 flex items-center justify-between w-full max-w-8xl mx-auto">
+      <header className="h-16 text-[15px] fixed inset-0 flex-center bg-red-800 mb-16 z-[999]">
+        <nav className="px-3.5 flex items-center justify-between w-full max-w-8xl mx-auto z-[999]">
           <div className="flex items-center gap-x-3 z-[999]">
             <div className="relative w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center">
               <img src={Logo} alt="Logo" className="w-8 h-8" />
@@ -113,7 +111,7 @@ const Navbar = () => {
             ))}
           </ul>
 
-          <div className="flex items-center gap-x-3">
+          <div className="flex items-center gap-x-3 z-[999]">
             {isUserLoggedIn && <NotificationBell hasNotification={hasNotification} />}
             {isUserLoggedIn && 
               <AuthButton text={t('logOut')}/>
@@ -121,7 +119,7 @@ const Navbar = () => {
             {!isUserLoggedIn && 
               <AuthButton text={t('signIn')}/>
             }
-            <div className="lg:hidden">
+            <div className="lg:hidden z-[999]">
               {menu && <MobMenu Menus={menu} />}
             </div>
           </div>
