@@ -36,7 +36,10 @@ import Premium from "./components/services/premium/premium";
 import Profile from "./components/commonPages/profile/profile";
 import { TranslationProvider } from './components/common/translationContext/translationContext';
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import {Provider} from "react-redux";
+
 import Role from "./components/auth/role";
+import store from "./components/common/redux/store";
 
 export default function App() {
 
@@ -44,8 +47,10 @@ export default function App() {
 
   return (
     <>
+    <Provider store={store}>
     <GoogleOAuthProvider clientId={CLIENT_ID}>
     <TranslationProvider>
+
     <Navbar/>
     <Routes>
       
@@ -102,8 +107,11 @@ export default function App() {
       <Route path="/premium" element={<Premium/>}/>
       
     </Routes>
+
+
     </TranslationProvider>
     </GoogleOAuthProvider>
+    </Provider>
     </>
   );
 }

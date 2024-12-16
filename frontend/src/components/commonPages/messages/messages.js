@@ -8,10 +8,10 @@ const Messages = () => {
   const { t } = useTranslationContext();
   const [messages,setMessages] = useState([]);
   const columns = [
-    { key: "id", label: "ID", sortable: true },
-    { key: "message", label: "Message", sortable: true },
+    { key: "id", label: "Id", sortable: true },
     { key: "sender", label: "Sender", sortable: true },
     { key: "date", label: "Date", sortable: true },
+    { key: "message", label: "Message", sortable: true },
     { key: "view", label: "View", sortable: false, popupField: "From" },
   ];
 

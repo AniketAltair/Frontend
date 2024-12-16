@@ -12,15 +12,19 @@ import { useEffect, useState } from "react";
 import NotificationBell from "../common/items/notificationBell";
 import AuthButton from "../common/buttons/authButton";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [menu, setMenu] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null); // Track active menu for touch events
   const [hasNotification, setHasNotification] = useState(false);
   const [isUserLoggedIn,setIsUserLoggedIn] = useState(false);
-  
+  const [notificationsMessages,setNotificationsMessages] = useState([]);
+  const [notificationSeen, setNotificationSeen] = useState(false);
+
 
   // User roles:
   // Admin - 1
@@ -72,8 +76,16 @@ const Navbar = () => {
 
   setTimeout(()=>{
     setHasNotification(true);
-  },3000)
-
+    // when implementing websocket
+    // this entire thing inside settimout shift it to function which will have websocket receiver
+    // the websocket will send new messages, we take them and set it to setNotificationsMessages. (only set titles of messages)
+    // when new message comes, again make setHasNotification. 
+    // when messages read, meaning bell icon pressed,all messages here are erased.
+    // also when user logs in the application,  make sure to fetch the user messages which are unread.
+    const newNotificationMessages = ["Hello there 1","Hello there 2","Hello there 3","Hello there 4","Hello there 5"];
+    setNotificationsMessages(newNotificationMessages);
+    // when user logs, in set the new notifications
+  },1000)
 
   useEffect(() => {
     const loggedInStatus = getUserLoggedInStatus();
@@ -88,6 +100,7 @@ const Navbar = () => {
       setMenuType(false, 0);
     }
   }, [])
+
 
   return (
     <div className="mb-16">
@@ -112,7 +125,14 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center gap-x-3 z-[999]">
-            {isUserLoggedIn && <NotificationBell hasNotification={hasNotification} />}
+            {isUserLoggedIn && 
+              <NotificationBell 
+                hasNotification={hasNotification}
+                notificationSeen={notificationSeen}
+                setNotificationSeen={setNotificationSeen}
+              />
+            }
+            
             {isUserLoggedIn && 
               <AuthButton text={t('logOut')}/>
             }
@@ -125,6 +145,35 @@ const Navbar = () => {
           </div>
         </nav>
       </header>
+      
+      {!notificationSeen && notificationsMessages.length > 0 && (
+        <div className="font-cursive absolute top-16 right-0 w-1/2 sm:w-1/4 bg-white shadow-md z-[100] rounded-md">
+          {notificationsMessages.slice(0, 3).map((item, index) => (
+            <div 
+              key={index} 
+              className="border-2 border-red-500 p-2 m-1 text-black rounded-md"
+              onClick={()=>{
+                navigate("/messages");
+                setNotificationSeen(true);
+                }}
+              >{item}</div>
+          ))}
+          
+          {notificationsMessages.length > 3 && (
+            <div 
+              className="ml-3 text-sky-400 cursor-pointer text-[12px]"
+              onClick={()=>{
+                navigate("/messages");
+                setNotificationSeen(true);
+                }}>
+              More...
+            </div>
+          )}
+        </div>
+      )}
+
+
+
     </div>
   );
 }

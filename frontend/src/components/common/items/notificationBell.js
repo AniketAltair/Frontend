@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Bell } from "lucide-react"; // You can use any icon library for the bell icon
 
-const NotificationBell = ({ hasNotification }) => {
-  const [notificationSeen, setNotificationSeen] = useState(false);
+const NotificationBell = ({ 
+  hasNotification, 
+  notificationSeen,
+  setNotificationSeen
+ }) => {
+  
   const [isWobbling, setIsWobbling] = useState(false);
   const [audio] = useState(new Audio(require("../../../assets/sounds/notificationBell.wav"))); // Path to your local sound file
 
@@ -16,17 +20,18 @@ const NotificationBell = ({ hasNotification }) => {
         setIsWobbling(false);
       }, 5000);
     }
+
+    // sets notification messages here
   }, [hasNotification]);
 
   const handleBellClick = () => {
     setNotificationSeen(true); // Mark notification as seen
-
     // Play sound only after user clicks on the bell icon (to bypass autoplay restrictions)
     audio.play();
   };
 
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex flex-col items-center justify-start">
       <style>
         {`
           @keyframes wobble {
@@ -59,18 +64,23 @@ const NotificationBell = ({ hasNotification }) => {
         `}
       </style>
 
-      {/* Bell Icon */}
-      <div
-        className={`relative flex items-center justify-center ${isWobbling ? "animate-wobble" : ""}`}
-        onClick={handleBellClick} // Handle bell click
-      >
-        <Bell size={28} className="text-black fill-yellow-400" />
+      {/* Bell Icon Container */}
+      <div className="relative">
+        {/* Bell Icon */}
+        <div
+          className={`relative flex items-center justify-center ${isWobbling ? "animate-wobble" : ""}`}
+          onClick={handleBellClick} // Handle bell click
+        >
+          <Bell size={28} className="text-black fill-yellow-400" />
 
-        {/* Red dot for notifications */}
-        {hasNotification && !notificationSeen && (
-          <div className="absolute top-0 right-0 w-3 h-3 bg-red-600 border-2 border-black rounded-full"></div>
-        )}
+          {/* Red dot for notifications */}
+          {hasNotification && !notificationSeen && (
+            <div className="absolute top-0 right-0 w-3 h-3 bg-red-600 border-2 border-black rounded-full"></div>
+          )}
+        </div>
       </div>
+
+     
     </div>
   );
 };
