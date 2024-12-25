@@ -2,10 +2,11 @@ import { useSelector } from "react-redux";
 import ToggleSwitch from "../buttons/toggleButton";
 import ApprovalComponent from "./ApprovalComponent";
 import TypeComponent from "./TypeComponent";
+import SendToComponent from "./SendToComponent";
 
 const ADDeditableVIEWEDITnoneditable = (key, value,currentData,setCurrentData, action) => 
 (key==="Address")?
-  (action==="add"?
+  ((action==="add")?
     (<textarea
       value={currentData[key]}
       onChange={(e) => {
@@ -22,7 +23,7 @@ const ADDeditableVIEWEDITnoneditable = (key, value,currentData,setCurrentData, a
       }}
     />
     ) :
-    action==="view"?
+    (action==="view")?
       (<div 
         className="mt-4 break-words border border-red-700 rounded-md p-2 max-h-[150px] overflow-y-auto">
         {value}
@@ -130,7 +131,7 @@ const ADDVIEWEDITnoneditable = (key, value,currentData,setCurrentData, action) =
       (<span className="ml-4 break-words">
           {value}
         </span>) :
-      action==="view"?
+      (action==="view")?
         (key==="Message")?
         <div className="mt-4 break-words border border-red-700 rounded-md p-2 max-h-[150px] overflow-y-auto">{value}</div>:
           (<span className="ml-4 break-words">
@@ -143,6 +144,30 @@ const ADDVIEWEDITnoneditable = (key, value,currentData,setCurrentData, action) =
 
   
   
+const MessageComponent = (key, value,currentData,setCurrentData, action) => (
+  (((action==="add") || (action==="edit"))?
+    (<textarea
+      value={currentData[key]}
+      onChange={(e) => {
+        const sanitizedValue = e.target.value.replace(/\n/g, " ");
+        setCurrentData((prev) => ({ ...prev, [key]: sanitizedValue }));
+      }}
+      placeholder={`Enter ${key}`}
+      className="border-2 border-red-500 rounded-md"
+      style={{
+        padding: "0.5rem",
+        width: "90%",
+        height: "8rem",
+        resize: "none",
+      }}
+    />
+    ):
+    (<div 
+      className="mt-4 break-words border border-red-700 rounded-md p-2 max-h-[150px] overflow-y-auto">
+      {value}
+    </div>)
+  )
+);
 
 
 
@@ -156,7 +181,7 @@ export const renderField = (key,value,currentData,setCurrentData,action,currentT
         return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
       case "Message":
         if(currentTab==="Notifications"){
-          return (ADDEDITeditableVIEWnoneditable(key, value,currentData,setCurrentData, action));
+          return (MessageComponent(key, value,currentData,setCurrentData, action));
         }else{
           return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
         }
@@ -173,11 +198,7 @@ export const renderField = (key,value,currentData,setCurrentData,action,currentT
       case "Address":
         return (ADDeditableVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
       case "Type":
-        if(currentTab==="Notifications"){
-          return TypeComponent(key, value,currentData,setCurrentData, action);
-        }else{
-          return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
-        }
+        return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
       case "Status":
         return (EDITeditableVIEWADDnoneditable(key, value,currentData,setCurrentData, action));
       case "Approval":
@@ -187,8 +208,6 @@ export const renderField = (key,value,currentData,setCurrentData,action,currentT
           return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
         }
       case "Gyms":
-        return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
-      case "":
         return (ADDVIEWEDITnoneditable(key, value,currentData,setCurrentData, action));
       default:    
         return null;

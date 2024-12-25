@@ -40,7 +40,7 @@ const Navbar = () => {
 
   const getUserRole = () => {
     // write logic to get user role
-    return 1;
+    return 5;
   }
 
   const getNotifications = () => {

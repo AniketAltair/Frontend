@@ -1,31 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const TypeComponent = (key, value,currentData,setCurrentData, action) => {
-  let selectedType = '';
+const TypeComponent = ({value,action,setCurrentData}) => {
+  const [selectedType, setSelectedType] = useState(value);
+  const [typesData,setTypesData] = useState([]);
+
+  const handleGetTypes = () => {
+    //API to get types from backend
+    const data = ["Marketing","Warning","Offer"];
+    return data;
+  }
+
+  useEffect(() => {
+
+    const data = handleGetTypes();
+    setTypesData(data);
+
+    if(action==="add"){
+      setCurrentData((prev) => ((data.length==0)?{ ...prev, "Type": '' }:{ ...prev, "Type": data[0] }));
+    }
+
+    
+  }, [setCurrentData]);
 
   const handleChange = (event) => {
-    selectedType = event.target.value;
-    setCurrentData((prev)=>({...prev,[key]:event.target.value}));
+    const value = event.target.value;
+    setSelectedType(value); // Update local state
+    setCurrentData((prev) => ({ ...prev, "Type": value })); // Update parent state
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '200px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '200px', marginTop: '10px'}}>
       <select
         id="type-select"
+        value={selectedType} 
         onChange={handleChange}
-          style={{
-            padding: '2px',
-            fontSize: '15px',
-            borderRadius: '5px',
-            border: '1px solid #8B0000', // Red-500 border
-            color: '#8B0000', // Red-500 text
-            backgroundColor: '#ffffff', // White background
-            cursor: 'pointer',
-            marginLeft: '5px', // Fixed margin
+        style={{
+          padding: '2px',
+          fontSize: '15px',
+          borderRadius: '5px',
+          border: '1px solid #8B0000', // Red-500 border
+          color: '#8B0000', // Red-500 text
+          backgroundColor: '#ffffff', // White background
+          cursor: 'pointer',
+          marginLeft: '5px', // Fixed margin
         }}
       >
-        <option value="Marketing">Marketing</option>
-        <option value="Warning">Warning</option>
+        {typesData.map((item)=>(
+          <option key={item} value={item}>{item}</option>
+        ))}
       </select>
     </div>
   );

@@ -22,7 +22,6 @@ import InspectGyms from "./components/inspector/inspectGyms";
 import Equipments from "./components/gym/equipments";
 import GymDashBoard from "./components/gym/gymDashboard";
 import MyCode from "./components/gym/myCode";
-import Trainers from "./components/gym/trainers";
 import AllGyms from "./components/trainer/allGyms";
 import TrainerDashBoard from "./components/trainer/trainerDashboard";
 import CustomerDashBoard from "./components/customer/customerDashboard";
@@ -34,12 +33,20 @@ import FindGyms from "./components/services/findGyms/findgyms";
 import Assistant from "./components/services/assistant/assistant";
 import Premium from "./components/services/premium/premium";
 import Profile from "./components/commonPages/profile/profile";
+import TransactionHistoryComponent from "./components/admin/transactionHistory";
+import TransactionHistoryComponentPremium from "./components/services/premium/transactionHistory";
+import PaymentComponent from "./components/services/premium/paymentComponent";
 import { TranslationProvider } from './components/common/translationContext/translationContext';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import {Provider} from "react-redux";
+import {LoadScript} from "@react-google-maps/api"
 
 import Role from "./components/auth/role";
 import store from "./components/common/redux/store";
+import RecommendationSolution from "./components/services/recommendations/recommendationSolution";
+import GymDetails from "./components/services/findGyms/gym/gymDetails";
+import Trainers from "./components/services/findGyms/trainer/trainers";
+import TrainerDetails from "./components/services/findGyms/trainer/trainerDetails";
 
 export default function App() {
 
@@ -50,8 +57,11 @@ export default function App() {
     <Provider store={store}>
     <GoogleOAuthProvider clientId={CLIENT_ID}>
     <TranslationProvider>
+    <LoadScript googleMapsApiKey="AIzaSyB3VRFgELNm7pRLDijBBR-iQp7SiFSqMT0">
 
     <Navbar/>
+    <Assistant/>
+    
     <Routes>
       
       {/* Default Path */}
@@ -79,6 +89,7 @@ export default function App() {
       <Route path="/admindashboard" element={<AdminDashboard/>}/>
       <Route path="/notifications" element={<Notifications/>}/>
       <Route path="/plans" element={<Plans/>}/>
+      <Route path="/plans/transactionhistory" element={<TransactionHistoryComponent/>}/>
       <Route path="/userpanel" element={<UserPanel/>}/>
 
       {/* Inpector Paths */}
@@ -102,13 +113,18 @@ export default function App() {
       <Route path="/workouts" element={<Workouts/>}/>
       <Route path="/planner" element={<Planner/>}/>
       <Route path="/recommendations" element={<Recommendations/>}/>
+      <Route path="/recommendations/recommendationsolution" element={<RecommendationSolution/>}/>
       <Route path="/findgyms" element={<FindGyms/>}/>
-      <Route path="/assistant" element={<Assistant/>}/>
+      <Route path="/findgyms/gymdetails" element={<GymDetails/>}/>
+      <Route path="/findgyms/trainers" element={<Trainers/>}/>
+      <Route path="/findgyms/trainerdetails" element={<TrainerDetails/>}/>
       <Route path="/premium" element={<Premium/>}/>
+      <Route path="/premium/transactionhistory" element={<TransactionHistoryComponentPremium/>}/>
+      <Route path="/premium/buynow" element={<PaymentComponent/>}/>
       
     </Routes>
 
-
+    </LoadScript>
     </TranslationProvider>
     </GoogleOAuthProvider>
     </Provider>

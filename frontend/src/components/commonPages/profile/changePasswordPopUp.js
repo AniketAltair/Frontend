@@ -100,7 +100,7 @@ const ChangePasswordPopUp = ({ onClose,setIsLoading }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
-      <div className="border-2 border-red-500 bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+      <div className="border-2 border-red-500 bg-white p-6 rounded-lg shadow-xl w-full mx-4 sm:max-w-md relative">
         {/* Toast Message */}
         {toastMessage && (
           <div

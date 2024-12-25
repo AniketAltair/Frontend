@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { FaEye, FaEdit, FaPaperPlane  } from "react-icons/fa";
-import PopUp from "../tablepopUp/popUp";
+import { FaEye } from "react-icons/fa";
 
 const TableComponent = ({ data, columns }) => {
   const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRow, setSelectedRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [popUpAction,setPopUpAction] = useState("");
 
   // Filter and Sort Logic
   const filteredData = data.filter((item) =>
@@ -41,31 +38,6 @@ const TableComponent = ({ data, columns }) => {
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
     setSortConfig({ key, direction });
   };
-
-  const handleViewRow = (record,action) => {
-    if(action==="view"){
-      setPopUpAction("view");
-    }else{
-      setPopUpAction("edit");
-    }
-
-    let popupData = {};
-
-    columns.forEach((col) => {
-      if((col.key)!=="view" && (col.key)!=="edit" && (col.key)!=="send"){
-        popupData = Object.assign({}, popupData, {
-          [col.label]: record[col.key],
-        });
-      }
-    });
-    setSelectedRow(popupData);
-  };
-
-  const handleClosePopup = () => setSelectedRow(null);
-
-  const handleSendNotification = (record) => {
-    console.log(record);
-  }
 
   return (
     <div>
@@ -112,41 +84,12 @@ const TableComponent = ({ data, columns }) => {
                     <tr key={index} className="border-t hover:bg-red-100 text-black">
                       {columns.map((column) => (
                         <td key={column.key} className="px-4 py-2">
-                          {(column.key === "amount")?
-                          <span>
-                            ₹ {record[column.key]}
-                          </span>:
-                          (column.key === "sendTo")?
-                          <span className="text-[12px] text-green-700">
-                            Click View button to view Members
-                          </span>:
-                          (column.key === "message" || column.key === "address") ? (
-                            <span className="inline-block max-w-xs truncate">
-                              {record[column.key].length > 20
-                                ? record[column.key].substring(0, 20) + "..."
-                                : record[column.key]}
-                            </span>
-                          ) : column.key === "send" ? (
-                            <button
-                              onClick={() => handleSendNotification(record)}
-                              className="text-black hover:text-red-700"
-                            >
-                              <FaPaperPlane />
-                            </button>
-                          )
-                          : column.key === "view" ? (
+                          {column.key === "view" ? (
                             <button
                               onClick={() => handleViewRow(record,"view")}
                               className="text-black hover:text-red-700"
                             >
                               <FaEye />
-                            </button>
-                          ) : column.key === "edit" ? (
-                            <button
-                              onClick={() => handleViewRow(record, "edit")}
-                              className="text-black hover:text-red-700"
-                            >
-                              <FaEdit />
                             </button>
                           ) : (
                             record[column.key]
@@ -185,14 +128,6 @@ const TableComponent = ({ data, columns }) => {
               </button>
             ))}
           </div>
-
-          {/* Popup */}
-          <PopUp
-            isOpen={!!selectedRow}
-            data={selectedRow}
-            onClose={handleClosePopup}
-            action={popUpAction}
-          />
         </>
       )}
     </div>

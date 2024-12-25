@@ -14,6 +14,20 @@ module.exports = {
       screens: {
         'below-400': { max: '400px' },
       },
+      keyframes: {
+        rotateClockwise: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        rotateAntiClockwise: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
+      },
+      animation: {
+        rotateClockwise: 'rotateClockwise 0.5s linear',
+        rotateAntiClockwise: 'rotateAntiClockwise 0.5s linear',
+      },
     },
   },
   plugins: [],

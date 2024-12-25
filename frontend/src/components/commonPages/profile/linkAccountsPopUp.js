@@ -87,7 +87,7 @@ const LinkAccountsPopUp = ({ onClose,setIsLoading,googleAccount,facebookAccount,
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative mr-5 ml-5"
+        className="border-2 border-red-500 bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative mr-5 ml-5"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Google Account */}

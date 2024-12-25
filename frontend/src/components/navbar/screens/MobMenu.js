@@ -2,11 +2,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsAssistantVisible } from "../../common/redux/slice/assistantSlice"
 
 export default function MobMenu({ Menus }) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [clicked, setClicked] = useState(null);
+  const dispatch = useDispatch();
+  const {isAssistantVisible} = useSelector((state)=>(state.assistant));
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -42,11 +46,18 @@ export default function MobMenu({ Menus }) {
     );
   };
 
-  const handleNavigation = (event, componentPath) => {
+  const handleNavigation = (event, componentPath, name) => {
+    console.log("name : "+name);
+    if(name==="AI Assistant"){
+      dispatch(setIsAssistantVisible({"isAssistantVisible":!isAssistantVisible}));
+      setIsOpen(false);
+      setClicked(null); 
+      return;
+    }
     event.preventDefault();
     navigate(componentPath);
-    setIsOpen(false); // Close the menu
-    setClicked(null); // Reset the submenu state
+    setIsOpen(false); 
+    setClicked(null);
   };
 
   return (
@@ -92,7 +103,7 @@ export default function MobMenu({ Menus }) {
                       <li
                         key={name}
                         className={`p-2 flex-center gap-x-2 cursor-pointer rounded-md bg-white text-black border-2 border-red-600 mt-1 z-[999]`}
-                        onClick={(event) => handleNavigation(event, componentPath)}
+                        onClick={(event) => handleNavigation(event, componentPath, name)}
                       >
                         <Icon size={17} className={`text-red-500`} />
                         {name}

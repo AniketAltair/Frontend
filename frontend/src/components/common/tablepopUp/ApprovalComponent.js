@@ -89,7 +89,7 @@ const ApprovalComponent = (key, value, currentData, setCurrentData, action) => {
 
   return (
     <div>
-      {action === "view" ? (
+      {((action === "view") || (action === "add"))? (
         <span className={`ml-4 break-words ${value === "Verified" ? "text-green-500" : "text-red-500"}`}>
           {value}
         </span>

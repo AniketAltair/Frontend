@@ -4,6 +4,8 @@ import { renderField } from "./renderFields";
 import Loading from "../loading/loading";
 import { setToastMessage, setIsToastValidType, setIsToastVisible } from "../redux/slice/toastSlice";
 import { setIsLoading } from "../redux/slice/loadingSlice";
+import SendToComponent from "./SendToComponent";
+import TypeComponent from "./TypeComponent";
 
 
 const PopUp = ({ isOpen, data, onClose, action }) => {
@@ -98,6 +100,7 @@ const PopUp = ({ isOpen, data, onClose, action }) => {
   };
 
   useEffect(() => {
+    console.log("dddaattaa : "+JSON.stringify(data));
     setCurrentData({ ...data });
     setErrors({});
   }, [data]);
@@ -131,7 +134,19 @@ const PopUp = ({ isOpen, data, onClose, action }) => {
           {data &&
             Object.entries(data).map(([key, value]) => (
               <>
-                {key === "Address" && (
+                {((key === "Type") && (currentTab==="Notifications")) && (
+                  <p key={`${key}-${value}`} className="mb-2 text-black">
+                    <strong className="text-red-700 mr-2">{key}:</strong>
+                    <TypeComponent value={value} action={action} setCurrentData={setCurrentData}/>
+                  </p>
+                )}
+                {(key === "SendTo") && (
+                  <p key={`${key}-${value}`} className="mb-2 text-black">
+                    <strong className="text-red-700 mr-2">{key}:</strong>
+                    <SendToComponent value={value} setCurrentData={setCurrentData} action={action}/>
+                  </p>
+                )}
+                {((key === "Address") || (key === "Message")) && (
                   <p key={`${key}-${value}`} className="mb-2 text-black">
                     <strong className="text-red-700 mr-2">{key}:</strong>
                     {renderField(key, value, currentData, setCurrentData, action,currentTab)}
@@ -146,8 +161,14 @@ const PopUp = ({ isOpen, data, onClose, action }) => {
                     {errors[key] && <p className="text-red-500 text-[5px]">{errors[key]}</p>}
                   </div>
                 )}
-                {key !== "Email" && key !== "Password" && key !== "Id" && key !== "Address" && (
-                  <p key={`${key}-${value}`} className="mb-2 text-black flex items-center">
+                {key !== "Email" && 
+                 key !== "Password" && 
+                 key !== "Id" && 
+                 key !== "Address" && 
+                 key !== "Message" && 
+                 key !== "SendTo" && 
+                 (currentTab!=="Notifications") && // for conflict with user panel type and notification type
+                 (<p key={`${key}-${value}`} className="mb-2 text-black flex items-center">
                     <strong className="text-red-700 mr-2">{key}:</strong>
                     {renderField(key, value, currentData, setCurrentData, action,currentTab)}
                   </p>

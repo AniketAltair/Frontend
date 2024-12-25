@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { setIsAssistantVisible } from "../../common/redux/slice/assistantSlice"
 
 export default function DesktopMenu({ menu, onTouchStart, activeMenu }) {
 
   const [isHover, toggleHover] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {isAssistantVisible} = useSelector((state)=>(state.assistant));
 
   const toggleHoverMenu = () => {
     toggleHover(!isHover);
@@ -38,7 +42,12 @@ export default function DesktopMenu({ menu, onTouchStart, activeMenu }) {
   // Check if the current menu is active (for touch events)
   const isActive = activeMenu === menu.name;
 
-  const handleNavigation = (event,componentPath) => {
+  const handleNavigation = (event,componentPath,name) => {
+    console.log("name : "+name);
+    if(name==="AI Assistant"){
+      dispatch(setIsAssistantVisible({"isAssistantVisible":!isAssistantVisible}));
+      return;
+    }
     event.preventDefault();
     console.log("path :"+componentPath);
     navigate(componentPath);
@@ -78,7 +87,7 @@ export default function DesktopMenu({ menu, onTouchStart, activeMenu }) {
               <div
                 className="relative cursor-pointer transform transition-transform duration-300 hover:scale-130" 
                 key={i}
-                onClick={(event)=>handleNavigation(event,submenu.componentPath)}
+                onClick={(event)=>handleNavigation(event,submenu.componentPath,submenu.name)}
               >
                 <div className="flex-center gap-x-4 group/menubox">
                   <div className="bg-white/5 w-fit p-2 rounded-md group-hover/menubox:bg-white text-red-500 duration-300">
