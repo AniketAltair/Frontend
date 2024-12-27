@@ -1,40 +1,142 @@
 import React, { useEffect, useState } from 'react';
-import { MdCancel } from "react-icons/md";
-import { FaLongArrowAltRight,FaLongArrowAltLeft } from "react-icons/fa";
 import ViewGroupItemsModal from './viewGroupItemsModal';
 import { useDispatch, useSelector } from 'react-redux';
-import {setDietBundle} from "../../../common/redux/slice/dietBundleSlice"
-
-
+import {setDietBundle,setMacrosInput} from "../../../common/redux/slice/dietBundleSlice"
+import MacrosInput from './macrosInput';
+import FoodSearch from './foodSearch';
+import SelectedItemsCard from './selectedItemsCard';
+import MandatoryItemsCard from './mandatoryItemsCard';
+import ViewItemsModal from './viewItemsModal';
+import DietBundleComponent from './dietBundleComponent';
 
 const CreateDietBundles = () => {
+
   const initialData = [
-    { foodName: "apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg", quantity: 0 },
-    { foodName: "chicken", image: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/1:1/w_4318,h_4318,c_limit/RoastChicken_RECIPE_080420_37993.jpg", quantity: 0 },
-    { foodName: "bread", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCvMvBll2kFRe95_mBtOfQQ8E8P614GsVL9A&s", quantity: 0 },
-    { foodName: "oats", image: "https://parade.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MjA0NDg0MTk4MjY4OTM4MDE2/rolled-oats-istock.jpg", quantity: 0 },
-    { foodName: "milk", image: "https://static.toiimg.com/thumb/msid-114346974,width-1280,height-720,resizemode-4/114346974.jpg", quantity: 0 },
-    { foodName: "peanut butter", image: "https://pinchofyum.com/wp-content/uploads/Homemade-Peanut-Butter-Square.png", quantity: 0 },
-    { foodName: "oats2", image: "https://parade.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MjA0NDg0MTk4MjY4OTM4MDE2/rolled-oats-istock.jpg", quantity: 0 },
-    { foodName: "milk2", image: "https://static.toiimg.com/thumb/msid-114346974,width-1280,height-720,resizemode-4/114346974.jpg", quantity: 0 },
-    { foodName: "peanut butter2", image: "https://pinchofyum.com/wp-content/uploads/Homemade-Peanut-Butter-Square.png", quantity: 0 },
+    { id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg", count: 0, quantityType:"unit" ,intialData:[1,10,20,5,100]},
+    { id:2,foodName: "Chicken", image: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/1:1/w_4318,h_4318,c_limit/RoastChicken_RECIPE_080420_37993.jpg",count: 0,quantityType:"gms",intialData:[250,47,10,20,220]},
+    { id:3,foodName: "Bread", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCvMvBll2kFRe95_mBtOfQQ8E8P614GsVL9A&s", count: 0,quantityType:"unit", intialData:[200,14,24,15,160]},
+    { id:4,foodName: "Oats", image: "https://parade.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MjA0NDg0MTk4MjY4OTM4MDE2/rolled-oats-istock.jpg", count: 0,quantityType:"unit", intialData:[100,10,20,5,100]},
+    { id:5,foodName: "Milk", image: "https://static.toiimg.com/thumb/msid-114346974,width-1280,height-720,resizemode-4/114346974.jpg", count: 0,quantityType:"ml", intialData:[100,10,20,5,100]},
+    { id:6,foodName: "Peanut Butter", image: "https://pinchofyum.com/wp-content/uploads/Homemade-Peanut-Butter-Square.png", count: 0,quantityType:"unit", intialData:[100,10,20,5,100]},
+    { id:7,foodName: "Oats2", image: "https://parade.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MjA0NDg0MTk4MjY4OTM4MDE2/rolled-oats-istock.jpg", count: 0,quantityType:"unit", intialData:[100,10,20,5,100]},
+    { id:8,foodName: "Milk2", image: "https://static.toiimg.com/thumb/msid-114346974,width-1280,height-720,resizemode-4/114346974.jpg", count: 0,quantityType:"unit", intialData:[100,10,20,5,100]},
+    { id:9,foodName: "Peanut Butter2", image: "https://pinchofyum.com/wp-content/uploads/Homemade-Peanut-Butter-Square.png", count: 0,quantityType:"unit", intialData:[100,10,20,5,100]},
   ];
 
+
+  const bundlesFromBackend = [
+    {
+      macros:{
+          protein:150,
+          carbs:200,
+          fats:150,
+          calories:2200,
+          },
+      meals:[
+        {
+          name:"Meal 1",
+          foodItems: [
+                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200},
+                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100},
+                ]
+        },
+        {
+          name:"Meal 2",
+          foodItems: [
+                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100},
+                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200},
+                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300},
+                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400},						 						 
+                ]
+        },
+        {
+          name:"Meal 3",
+          foodItems: [
+                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400},
+                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100},
+                ]
+        },
+        {
+          name:"Meal 4",
+          foodItems: [
+                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200},
+                ]
+        }
+      ]
+    },
+    {
+      macros:{
+          protein:180,
+          carbs:250,
+          fats:100,
+          calories:2000,
+          },
+      meals:[
+        {
+          name:"Meal 1",
+          foodItems: [
+                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200},
+                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100},
+                ]
+        },
+        {
+          name:"Meal 2",
+          foodItems: [
+                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100},
+                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200},
+                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300},
+                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400},						 						 
+                ]
+        },
+        {
+          name:"Meal 3",
+          foodItems: [
+                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400},
+                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100},
+                ]
+        },
+        {
+          name:"Meal 4",
+          foodItems: [
+                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200},
+                ]
+        }
+      ]
+    }
+  ];
+
+
   const [foodData, setFoodData] = useState(initialData);
+  const [createdBundleData, setCreatedBundleData] = useState(bundlesFromBackend);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [groupCount, setGroupCount] = useState(1);  // Track group number (group 1, group 2, etc.)
+  const [groupCount, setGroupCount] = useState(1);  
   const [mandatoryItems, setMandatoryItems] = useState([]);
   const [groupItems, setGroupItems] = useState([]);
   const [groupIndex, setGroupIndex] = useState(0);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isGroupModalVisible, setIsGroupModalVisible] = useState(false);
+  const [isFoodItemModalVisible, setIsFoodItemModalVisible] = useState(false);
+  const [isCreatedDietBundlesVisible, setisCreatedDietBundlesVisible] = useState(false);
+  const [itemModalIndex,setItemModalIndex] = useState(0);
+  const [macrosDetails, setMacrosDetails] = useState({
+      protein: "",
+      proteinUnit: "gms",
+      carbs: "",
+      carbsUnit: "gms",
+      fats: "",
+      fatsUnit: "gms",
+      calories: "",
+      caloriesUnit: "kcals",
+      meals: 1,
+    });
+
   const dispatch = useDispatch();
   const {selectedItemsState,mandatoryItemsState} = useSelector((state)=>(state.dietBundle));
-
+  const {macrosInput} = useSelector((state)=>(state.dietBundle));
 
   const handleIncrement = (index) => {
     setFoodData((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
+        i === index ? { ...item, count: item.count + 1 } : item
       )
     );
   };
@@ -42,74 +144,87 @@ const CreateDietBundles = () => {
   const handleDecrement = (index) => {
     setFoodData((prev) =>
       prev.map((item, i) =>
-        i === index && item.quantity > 0
-          ? { ...item, quantity: item.quantity - 1 }
+        i === index && item.count > 0
+          ? { ...item, count: item.count - 1 }
           : item
       )
     );
   };
 
   const handleAddFoodItems = () => {
-    const selected = foodData.filter((item) => item.quantity > 0);
-
+    const selected = foodData.filter((item) => item.count > 0);
     if(selected.length===0){
       return;
     }
-  
     setSelectedItems((prevSelected) => {
       const updatedSelected = [...prevSelected];
-  
       selected.forEach((newItem) => {
-        // Add the item for each quantity
-        for (let i = 0; i < newItem.quantity; i++) {
+        for (let i = 0; i < newItem.count; i++) {
           updatedSelected.push({
+            id:newItem.id,
             foodName: newItem.foodName,
-            image: newItem.image
+            image: newItem.image,
+            quantityType: newItem.quantityType,
+            initialMacroData: [newItem.intialData[0],newItem.intialData[1],newItem.intialData[2],newItem.intialData[3],newItem.intialData[4]],
+            quantity : newItem.intialData[0],
+            protein: newItem.intialData[1],
+            carbs: newItem.intialData[2],
+            fats: newItem.intialData[3],
+            calories: newItem.intialData[4]
           });
         }
       });
-  
       return updatedSelected;
     });
-  
     setFoodData((prev) => {
-      return prev.map((item) => ({ ...item, quantity: 0 }));
+      return prev.map((item) => ({ ...item, count: 0 }));
     });
   };
   
-
   const handleAddFoodGroup = () => {
-    // Filter the selected food items with quantity > 0
-    const selectedGroup = foodData.filter((item) => item.quantity > 0);
-  
-    if (selectedGroup.length === 1 && selectedGroup[0].quantity === 1) {
-      setFoodData((prev) => prev.map((item) => ({ ...item, quantity: 0 })));
+    const selectedGroup = foodData.filter((item) => item.count > 0);
+    if (selectedGroup.length === 1 && selectedGroup[0].count === 1) {
+      setFoodData((prev) => prev.map((item) => ({ ...item, count: 0 })));
       return;
     }
-  
-    // Only add the group if there are selected items
+
+    console.log("selectedgroup : "+JSON.stringify(selectedGroup));
+
+    for(let i=0;i<selectedGroup.length;i++){
+      selectedGroup[i].initialMacroData = selectedGroup[i].intialData;
+      selectedGroup[i].quantity = selectedGroup[i].intialData[0];
+      selectedGroup[i].protein = selectedGroup[i].intialData[1];
+      selectedGroup[i].carbs = selectedGroup[i].intialData[2];
+      selectedGroup[i].fats = selectedGroup[i].intialData[3];
+      selectedGroup[i].calories = selectedGroup[i].intialData[4];
+    }
+
+    
     if (selectedGroup.length > 0) {
       setSelectedItems((prevSelected) => {
         const updatedSelected = [
           ...prevSelected,
           {
             name: `Group ${groupCount}`,
-            items: selectedGroup.flatMap(({ foodName, image, quantity }) => {
-              // Create an array of separate items for each quantity
-              return Array.from({ length: quantity }, () => ({
+            items: selectedGroup.flatMap(({ foodName, image, count,quantityType,initialMacroData,quantity,protein,carbs,fats,calories }) => {
+              return Array.from({ length: count }, () => ({
                 foodName,
                 image,
+                quantityType,
+                initialMacroData,
+                quantity,
+                protein,
+                carbs,
+                fats,
+                calories
               }));
             }),
           },
         ];
-  
         return updatedSelected;
       });
-  
-      // Reset food quantities and increment the group counter
-      setFoodData((prev) => prev.map((item) => ({ ...item, quantity: 0 })));
-      setGroupCount((prevCount) => prevCount + 1); // Increment group count for the next group
+      setFoodData((prev) => prev.map((item) => ({ ...item, count: 0 })));
+      setGroupCount((prevCount) => prevCount + 1);
     }
   };
 
@@ -123,6 +238,54 @@ const CreateDietBundles = () => {
     setSelectedItems(newSelectedItems);
     setMandatoryItems((prevMandatory) => [...prevMandatory, item]);
   };
+  
+
+  const handleViewGroupItems = (index,group) => {
+    setGroupItems(group.items || []);
+    setGroupIndex(index);
+    setIsGroupModalVisible(true);
+  };
+
+  const handleViewItems = (index) => {
+    console.log("index i : "+index);
+    setItemModalIndex(index);
+    setIsFoodItemModalVisible(true);
+  };
+
+  const handleUpdateGroup = (index, newItems) => {
+
+    console.log("newItems : "+JSON.stringify(newItems));
+
+    for(let i=0;i<newItems.length;i++){
+      if(newItems[i].quantity==0){
+        console.log("empty qty found");
+        return;
+      }
+    }
+
+    setSelectedItems((prevSelectedItems) => {
+      return prevSelectedItems.map((item, i) =>
+        i === index ? { ...item, items: newItems } : item
+      );
+    });
+  };
+
+  const handleUpdateItem = (index,newData) => {
+    if(newData.quantity==0){
+      return;
+    }
+    setSelectedItems((prev)=>{
+      return prev.map((item,i)=>
+        i===index ? {...item,
+          quantity:newData.quantity,
+          protein:newData.protein,
+          carbs:newData.carbs,
+          fats:newData.fats,
+          calories:newData.calories,
+        }:item
+      );
+    });
+  }
 
   const handleMoveToSelected = (item, index) => {
     const newSelectedItems = [...mandatoryItems];
@@ -131,19 +294,61 @@ const CreateDietBundles = () => {
     setSelectedItems((prevSelected) => [...prevSelected, item]);
   };
 
-  const handleViewGroupItems = (index,group) => {
-    setGroupItems(group.items || []);
-    setGroupIndex(index);
-    setIsModalVisible(true);
-  };
+  const handleCreateBundles = (macrosDetails,setWarning) => {
+    const { protein, carbs, fats, calories, meals } = macrosDetails;
+    if (!protein || !carbs || !fats || !calories || !meals) {
+      setWarning("All fields are required! Please fill out all inputs.");
+      return;
+    }
+    dispatch(setMacrosInput({macrosInput:[protein,carbs,fats,calories,meals]}));
 
-  const handleUpdateGroup = (index, newItems) => {
-    setSelectedItems((prevSelectedItems) => {
-      return prevSelectedItems.map((item, i) =>
-        i === index ? { ...item, items: newItems } : item
-      );
-    });
-  };
+    // Clear warning if all inputs are filled
+    setWarning("");
+    console.log("Protein :" + macrosDetails.protein + " " + macrosDetails.proteinUnit);
+    console.log("Carbs :" + macrosDetails.carbs + " " + macrosDetails.carbsUnit);
+    console.log("Fats :" + macrosDetails.fats + " " + macrosDetails.fatsUnit);
+    console.log("Calories :" + macrosDetails.calories + " " + macrosDetails.caloriesUnit);
+    console.log("Number of meals :" + macrosDetails.meals);
+
+    // have loading logic here.
+    // API call to get all bundles and replace it with createdBundles
+    // once successfully bought, loading false and than setisCreatedDietBundlesVisible(true);
+    // create state for isCreatedDietBundlesVisible
+    // create a state in dietbundleSlice to keep track of latest state of createdBundles
+    // on useEffect, load the state of isCreatedDietBundlesVisible and createdBundles
+    // in createdBundles State Also hold the state of the bundle name
+
+    setisCreatedDietBundlesVisible(true);
+
+
+  } 
+
+  const handleAddToMyBundles = (index,bundleName,setShowBundleNameWarning) => {
+    
+    console.log("handleAddToMyBundles pressed for : "+index);
+    if(bundleName===null || bundleName==="" || bundleName===" "){
+      return;
+    }
+
+    // here check with backend if the bundle name is taken or not (only for that user)
+    // API call
+    if(true){
+      console.log("inside bundle name check")
+      setShowBundleNameWarning(true);
+    }else{
+      // success
+      // meaning no such bundle name exists for this user
+      // API call to save the data to my bundles.
+      // again the loading compo and all.
+      setShowBundleNameWarning(false);
+      console.log("bundle name : "+bundleName);
+
+      // Once the bundle is added to my bundles, remove from here via removing from state createdBundles
+      
+    }
+    
+    //console.log("data stored in my bundles : "+JSON.stringify(createdBundleData[index]));
+  }
 
   useEffect(() => {
     console.log("Updated Selected Items:", selectedItems);
@@ -154,6 +359,13 @@ const CreateDietBundles = () => {
   useEffect(()=>{
     setSelectedItems(selectedItemsState);
     setMandatoryItems(mandatoryItemsState);
+    setMacrosDetails((prev)=>({...prev,
+      protein:macrosInput[0],
+      carbs:macrosInput[1],
+      fats:macrosInput[2],
+      calories:macrosInput[3],
+      meals:macrosInput[4],
+    }))
   },[]);
 
 
@@ -161,162 +373,60 @@ const CreateDietBundles = () => {
     <div className="font-cursive p-4 bg-gray-100 min-h-screen">
       <div className="flex justify-center gap-4 mb-6">
         <button
-          className="border-2 border-black px-3 py-2 bg-green-500 text-black rounded-lg shadow-md hover:bg-green-600"
+          className="border-2 border-black px-[4px] py-2 bg-green-500 text-black rounded-lg shadow-md hover:bg-green-600"
           onClick={handleAddFoodItems}
         >
           Add Food Items
         </button>
         <button
-          className="border-2 border-black px-4 py-2 bg-green-500 text-black rounded-lg shadow-md hover:bg-green-600"
+          className="border-2 border-black px-[4px] py-2 bg-green-500 text-black rounded-lg shadow-md hover:bg-green-600"
           onClick={handleAddFoodGroup}
         >
           Add Food Group
         </button>
       </div>
 
-      <div className="border-2 border-red-500 bg-white p-4 rounded-lg shadow-2xl">
-        <input
-          type="text"
-          placeholder="Search food..."
-          className="w-full p-2 mb-4 border-2 border-red-500 rounded-lg text-black"
-        />
+      <FoodSearch foodData={foodData} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>
 
-        <div
-          className="h-96 overflow-y-auto"
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-        >
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10 gap-4 p-4">
-            {foodData.map((item, index) => (
-              <div key={item.foodName} className="border rounded-lg shadow-md flex flex-col">
-                <div className="justify-between items-start">
-                  <div className="flex justify-between items-center ml-auto">
-                    {item.quantity === 0 ? (
-                      <button
-                        className="border-[1px] border-black w-5 h-5 flex items-center justify-center bg-green-500 text-white rounded-full shadow-md"
-                        onClick={() => handleIncrement(index)}
-                      >
-                        +
-                      </button>
-                    ) : (
-                      <div
-                        className="border-[1px] border-black w-5 h-5 flex items-center justify-center bg-green-500 text-white rounded-full shadow-md cursor-pointer"
-                        onClick={() => handleIncrement(index)}
-                      >
-                        {item.quantity}
-                      </div>
-                    )}
-                    {item.quantity > 0 && (
-                      <button
-                        className="border-[1px] border-black w-5 h-5 flex items-center justify-center bg-red-500 text-white rounded-full shadow-md"
-                        onClick={() => handleDecrement(index)}
-                      >
-                        -
-                      </button>
-                    )}
-                  </div>
-                  <img
-                    src={item.image}
-                    alt={item.foodName}
-                    className="border-2 border-black w-full h-24 sm:h-32 object-cover rounded-lg"
-                  />
-                </div>
-            </div>                   
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Selected Items and Mandatory Cards */}
       <div className="flex gap-4 mt-8">
+        <SelectedItemsCard 
+          selectedItems={selectedItems} 
+          handleMoveToMandatory={handleMoveToMandatory}
+          handleRemoveItem={handleRemoveItem} 
+          handleViewItems={handleViewItems}
+          handleViewGroupItems={handleViewGroupItems}/>
 
-       {/* Selected Items Card */}
-       <div className="flex-1 border-2 border-red-500 p-2 rounded-lg shadow-2xl overflow-y-auto  h-[300px]">
-       <h3 className="text-sm text-black ml-2 font-bold mb-4"><u>Selected Items</u></h3>
-          <div className="space-y-4">
-            {selectedItems.map((item, index) => (
-              <div key={index}>
-                {item.foodName ? (
-                  <div className='flex items-center gap-x-3'>
-                     <MdCancel 
-                        className='text-red-500 w-[20px] h-[20px] border-[1px] border-black rounded-full'
-                        onClick={()=>handleRemoveItem(index)}/>
-                    <img
-                      src={item.image}
-                      alt={item.foodName}
-                      className="w-14 h-14 sm:w-20 sm:h-20 border-2 border-black rounded-md object-cover"/>
-                      <FaLongArrowAltRight 
-                        className='text-red-500 text-[30px]'
-                        onClick={() => handleMoveToMandatory(item, index)}/>
-                  </div>
-                ) : (
-                  <div className='flex items-center gap-x-3'>
-                    <MdCancel 
-                        className='text-red-500 w-[20px] h-[20px] border-[1px] border-black rounded-full'
-                        onClick={()=>handleRemoveItem(index)}/>
-                    <div 
-                      className="w-16 text-[10px] text-black bg-green-500 p-2 rounded-md border-2 border-black inline-block"
-                      onClick={()=>handleViewGroupItems(index,item)}>
-                      {item.name}
-                    </div>
-                    <FaLongArrowAltRight 
-                      className='text-red-500 text-[30px]'
-                      onClick={() => handleMoveToMandatory(item, index)}/>   
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-
-         {/* Mandatory Items Card */}
-        <div className="flex-1 border-2 border-red-500 p-2 rounded-lg shadow-2xl overflow-y-auto h-[300px]">
-          <h3 className="text-sm text-black ml-2 font-bold mb-4">
-            <u>Mandatory</u>
-          </h3>
-          <div className="space-y-4">
-            {mandatoryItems.map((item, index) => (
-              <div key={index}>
-                {item.foodName ? (
-                  <div className='flex items-center gap-x-3'>
-                    <FaLongArrowAltLeft
-                      className='text-black text-[30px]'
-                      onClick={()=>handleMoveToSelected(item,index)}
-                      />
-                    <img
-                      src={item.image}
-                      alt={item.foodName}
-                      className="w-14 h-14 sm:w-20 sm:h-20 border-2 border-black rounded-md object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className='flex items-center gap-x-3'>
-                    <FaLongArrowAltLeft
-                      className='text-black text-[30px]'
-                      onClick={()=>handleMoveToSelected(item,index)}
-                      />
-                    <div className="w-16 text-[10px] text-black bg-green-500 p-2 rounded-md border-2 border-black inline-block">
-                      {item.name}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        <MandatoryItemsCard
+          mandatoryItems={mandatoryItems}
+          handleMoveToSelected={handleMoveToSelected}/>
       </div>
 
-      {/* Modal Component */}
+      <MacrosInput 
+        macrosDetails={macrosDetails} 
+        setMacrosDetails={setMacrosDetails}
+        handleCreateBundles={handleCreateBundles}/>
+
+      {isCreatedDietBundlesVisible && 
+      <div className='flex overflow-x-auto '>
+        {createdBundleData.map((bundle,index)=>(
+          <DietBundleComponent index={index} data={bundle} handleAddToMyBundles={handleAddToMyBundles}/>
+        ))}
+      </div>}
+
       <ViewGroupItemsModal 
         groupIndex={groupIndex}
         groupItems={groupItems} 
-        isVisible={isModalVisible} 
-        onClose={() => setIsModalVisible(false)}
+        isVisible={isGroupModalVisible} 
+        onClose={() => setIsGroupModalVisible(false)}
         handleUpdateGroup={handleUpdateGroup} 
+      />
+
+      <ViewItemsModal
+        selectedItems={selectedItems}
+        itemModalIndex={itemModalIndex}
+        isVisible={isFoodItemModalVisible} 
+        onClose={() => setIsFoodItemModalVisible(false)}
+        handleUpdateItem={handleUpdateItem}
       />
 
     </div>
