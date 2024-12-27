@@ -34,12 +34,20 @@ const MealDetailsModal = ({ data, onClose }) => {
                 </button>
               </div>
               {expandedMeals[`${mealIndex}-${foodIndex}`] && (
-                <div className="border-[1px] border-red-500 bg-red-200 p-1 rounded-md mt-2 text-sm text-black">
+                <div className='flex'>
+                  <img
+                    src={food.image}
+                    alt={food.foodName}
+                    className="mt-2 w-14 mr-2  h-14 rounded-md border-2 border-black"
+                  />
+                  <div className="border-[1px] border-red-500 bg-red-200 p-1 rounded-md mt-2 text-sm text-black">
                   <p>Protein: {food.protein} gms</p>
                   <p>Carbs: {food.carbs} gms</p>
                   <p>Fats: {food.fats} gms</p>
                   <p>Calories: {food.calories} kcals</p>
                 </div>
+                </div>
+                
               )}
             </div>
           ))}
