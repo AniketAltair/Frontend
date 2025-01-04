@@ -5,8 +5,10 @@ import loadingReducer from "./slice/loadingSlice";
 import assistantReducer from "./slice/assistantSlice";
 import premiumPlanReducer from "./slice/premiumPlanSlice";
 import gymDetailsReducer from "./slice/gymDetailsSlice";
-import trainerDetailsReducer from "./slice/trainerDetailsSlice"
-import dietBundleReducer from "./slice/dietBundleSlice"
+import trainerDetailsReducer from "./slice/trainerDetailsSlice";
+import dietBundleReducer from "./slice/dietBundleSlice";
+import myDietBundleReducer from "./slice/myDietBundleSlice";
+import exercisesReducer from "./slice/exercisesSlice"
 
 const store = configureStore({
     reducer:{
@@ -17,7 +19,9 @@ const store = configureStore({
         premiumPlan : premiumPlanReducer,
         gymDetails : gymDetailsReducer,
         trainerDetails : trainerDetailsReducer,
-        dietBundle : dietBundleReducer
+        dietBundle : dietBundleReducer,
+        myDietBundle : myDietBundleReducer,
+        exercises : exercisesReducer
     }
 })
 

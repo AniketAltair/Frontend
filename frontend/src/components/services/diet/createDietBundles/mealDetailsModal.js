@@ -19,7 +19,7 @@ const MealDetailsModal = ({ data, onClose }) => {
             {meal.name}
           </h4>
           {meal.foodItems.map((food, foodIndex) => (
-            <div key={food.id} className="mt-2">
+            <div key={food.id} className="mt-1">
               <div className="flex justify-between items-center">
                 <span className='text-red-500'>
                   {food.foodName} 

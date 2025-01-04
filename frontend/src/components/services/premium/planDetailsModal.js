@@ -39,7 +39,7 @@ const Modal = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
       onClick={handleClickOutside}
     >
       <div className="border-red-500 border-2 bg-white w-[90%] sm:w-full sm:max-w-md p-6 rounded-lg shadow-xl">

@@ -35,31 +35,35 @@ const CreateDietBundles = () => {
       meals:[
         {
           name:"Meal 1",
+          time:"06:00",
           foodItems: [
-                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200},
-                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100},
+                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200,intialData:[250,47,10,20,220]},
+                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
                 ]
         },
         {
           name:"Meal 2",
+          time:"06:00",
           foodItems: [
-                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100},
-                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200},
-                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300},
-                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400},						 						 
+                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
+                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200,intialData:[250,47,10,20,220]},
+                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300,intialData:[250,47,10,20,220]},
+                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400,intialData:[250,47,10,20,220]},						 						 
                 ]
         },
         {
           name:"Meal 3",
+          time:"06:00",
           foodItems: [
-                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400},
-                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100},
+                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400,intialData:[250,47,10,20,220]},
+                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
                 ]
         },
         {
           name:"Meal 4",
+          time:"06:00",
           foodItems: [
-                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200},
+                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200,intialData:[250,47,10,20,220]},
                 ]
         }
       ]
@@ -74,31 +78,35 @@ const CreateDietBundles = () => {
       meals:[
         {
           name:"Meal 1",
+          time:"06:00",
           foodItems: [
-                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200},
-                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100},
+                 {id:1,foodName: "Apple", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 20, carbs : 40, fats : 10, calories : 200,intialData:[250,47,10,20,220]},
+                 {id:2,foodName: "Banana", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 1, quantityType:"unit" ,protein : 10, carbs : 20, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
                 ]
         },
         {
           name:"Meal 2",
+          time:"06:00",
           foodItems: [
-                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100},
-                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200},
-                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300},
-                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400},						 						 
+                 {id:4,foodName: "Oats", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 50, quantityType:"gms" ,protein : 30, carbs : 10, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
+                 {id:5,foodName: "Milk", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 200, quantityType:"ml" ,protein : 10, carbs : 20, fats : 5, calories : 200,intialData:[250,47,10,20,220]},
+                 {id:6,foodName: "Peanut butter", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 32, quantityType:"gms" ,protein : 15, carbs : 20, fats : 5, calories : 300,intialData:[250,47,10,20,220]},
+                 {id:9,foodName: "seeds", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 15, quantityType:"gms" ,protein : 5, carbs : 10, fats : 5, calories : 400,intialData:[250,47,10,20,220]},						 						 
                 ]
         },
         {
           name:"Meal 3",
+          time:"06:00",
           foodItems: [
-                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400},
-                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100},
+                 {id:7,foodName: "Chicken", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 250, quantityType:"gms" ,protein : 50, carbs : 4, fats : 15, calories : 400,intialData:[250,47,10,20,220]},
+                 {id:8,foodName: "Roti", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 3, quantityType:"unit" ,protein : 10, carbs : 40, fats : 5, calories : 100,intialData:[250,47,10,20,220]},
                 ]
         },
         {
           name:"Meal 4",
+          time:"06:00",
           foodItems: [
-                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200},
+                 {id:10,foodName: "Eggs", image: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple.jpg",quantity : 2, quantityType:"unit" ,protein : 18, carbs : 20, fats : 25, calories : 200,intialData:[250,47,10,20,220]},
                 ]
         }
       ]
@@ -294,14 +302,65 @@ const CreateDietBundles = () => {
     setSelectedItems((prevSelected) => [...prevSelected, item]);
   };
 
-  const handleCreateBundles = (macrosDetails,setWarning) => {
+  const handleCreateBundles = (macrosDetails, setWarning) => {
     const { protein, carbs, fats, calories, meals } = macrosDetails;
+  
     if (!protein || !carbs || !fats || !calories || !meals) {
       setWarning("All fields are required! Please fill out all inputs.");
       return;
     }
-    dispatch(setMacrosInput({macrosInput:[protein,carbs,fats,calories,meals]}));
-
+  
+    dispatch(setMacrosInput({ macrosInput: [protein, carbs, fats, calories, meals] }));
+  
+    // Function to calculate the sum of macros for a given array of items
+    const calculateMacros = (items) => {
+      return items.reduce((totals, item) => {
+        if (item.items && Array.isArray(item.items)) {
+          // If it's a group, recursively calculate macros for its items
+          const groupMacros = calculateMacros(item.items);
+          totals.protein += groupMacros.protein;
+          totals.carbs += groupMacros.carbs;
+          totals.fats += groupMacros.fats;
+          totals.calories += groupMacros.calories;
+        } else {
+          // Otherwise, it's a food item, so just add its macros
+          totals.protein += item.protein || 0;
+          totals.carbs += item.carbs || 0;
+          totals.fats += item.fats || 0;
+          totals.calories += item.calories || 0;
+        }
+        return totals;
+      }, { protein: 0, carbs: 0, fats: 0, calories: 0 });
+    };
+  
+    // Calculate macros for selected and mandatory items
+    const selectedMacros = calculateMacros(selectedItems);
+    const mandatoryMacros = calculateMacros(mandatoryItems);
+  
+    const totalProtein = selectedMacros.protein + mandatoryMacros.protein;
+    const totalCarbs = selectedMacros.carbs + mandatoryMacros.carbs;
+    const totalFats = selectedMacros.fats + mandatoryMacros.fats;
+    const totalCalories = selectedMacros.calories + mandatoryMacros.calories;
+  
+    console.log(totalProtein + " " + totalCarbs + " " + totalFats + " " + totalCalories);
+  
+    if (totalProtein < protein) {
+      setWarning("Insufficient Protein Provided, need " + (protein - totalProtein) + " more protein at least");
+      return;
+    }
+    if (totalCarbs < carbs) {
+      setWarning("Insufficient Carbs Provided, need " + (carbs - totalCarbs) + " more carbs at least");
+      return;
+    }
+    if (totalFats < fats) {
+      setWarning("Insufficient Fats Provided, need " + (fats - totalFats) + " more fats at least");
+      return;
+    }
+    if (totalCalories < calories) {
+      setWarning("Insufficient Calories Provided, need " + (calories - totalCalories) + " more calories at least");
+      return;
+    }
+  
     // Clear warning if all inputs are filled
     setWarning("");
     console.log("Protein :" + macrosDetails.protein + " " + macrosDetails.proteinUnit);
@@ -309,19 +368,10 @@ const CreateDietBundles = () => {
     console.log("Fats :" + macrosDetails.fats + " " + macrosDetails.fatsUnit);
     console.log("Calories :" + macrosDetails.calories + " " + macrosDetails.caloriesUnit);
     console.log("Number of meals :" + macrosDetails.meals);
-
-    // have loading logic here.
-    // API call to get all bundles and replace it with createdBundles
-    // once successfully bought, loading false and than setisCreatedDietBundlesVisible(true);
-    // create state for isCreatedDietBundlesVisible
-    // create a state in dietbundleSlice to keep track of latest state of createdBundles
-    // on useEffect, load the state of isCreatedDietBundlesVisible and createdBundles
-    // in createdBundles State Also hold the state of the bundle name
-
+  
     setisCreatedDietBundlesVisible(true);
-
-
-  } 
+  };
+  
 
   const handleAddToMyBundles = (index,bundleName,setShowBundleNameWarning) => {
     

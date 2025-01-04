@@ -132,7 +132,7 @@ const FindGyms = () => {
           onClick={closeMapModal}
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-          <div className="bg-white w-3/4 h-2/3 sm:w-2/3 sm:h-3/4 p-4 rounded-md">
+          <div className="bg-white w-3/4 h-3/4 sm:w-2/3 sm:h-3/4 p-4 rounded-md">
             <GoogleMap gymsData={gymsData} className="w-full h-full" />
           </div>
         </div>

@@ -110,14 +110,23 @@ export default function App() {
 
       {/* Services Paths */}
       <Route path="/diet" element={<Diet/>}/>
+
       <Route path="/workouts" element={<Workouts/>}/>
+
+
       <Route path="/planner" element={<Planner/>}/>
+
+
       <Route path="/recommendations" element={<Recommendations/>}/>
       <Route path="/recommendations/recommendationsolution" element={<RecommendationSolution/>}/>
+
+
       <Route path="/findgyms" element={<FindGyms/>}/>
       <Route path="/findgyms/gymdetails" element={<GymDetails/>}/>
       <Route path="/findgyms/trainers" element={<Trainers/>}/>
       <Route path="/findgyms/trainerdetails" element={<TrainerDetails/>}/>
+
+
       <Route path="/premium" element={<Premium/>}/>
       <Route path="/premium/transactionhistory" element={<TransactionHistoryComponentPremium/>}/>
       <Route path="/premium/buynow" element={<PaymentComponent/>}/>
