@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setMyDietBundleVisible,
-  setAddNewBundleVisibleVisible,
-  setViewMyBundleVisible,
-  setviewMyBundleData,
-  setviewMyBundleMealIndexData
-} from '../../../common/redux/slice/myDietBundleSlice';
+import React, { useEffect, useState }  from 'react';
 import { IoArrowBack } from 'react-icons/io5';
+
+import {useDispatch,useSelector} from "react-redux";
+import {
+    setIsCustomerDashBoardVisible,
+    setIsEditDietBundleVisible,
+    setIsEditWorkoutBundleVisible,
+    setCurrentBundleData,
+    setCurrentDietBundleIndexData
+} from "../../../common/redux/slice/customerDashBoardSlice";
+
 import { MdCancel } from 'react-icons/md';
 import { FaPlusCircle } from 'react-icons/fa';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import FoodSearch from './foodSearch';
 import TimeClock from '../../../common/items/timeClock';
 
-const ViewMyBundle = () => {
-    
+
+const DietBundleData = () => {
+
   const [expandedMeals, setExpandedMeals] = useState({});
   const [data, setData] = useState();
   const [showfoodSearchModal, setShowfoodSearchModal] = useState(false);
@@ -25,8 +28,9 @@ const ViewMyBundle = () => {
   const [time, setTime] = useState('');
   const [totalMacros,setTotalMacros] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
+  
 
-  const { viewMyBundleData,viewMyBundleMealIndexData } = useSelector((state) => state.myDietBundle);
+  const { currentBundleData,currentDietBundleIndexData } = useSelector((state) => state.customerDashBoard);
   const dispatch = useDispatch();
 
   const handleTimeChange = (mealIndex,newTime) => {
@@ -40,12 +44,6 @@ const ViewMyBundle = () => {
       ...prev,
       [mealIndex]: !prev[mealIndex],
     }));
-  };
-
-  const handleNavigateBackToMyDietBundle = () => {
-    dispatch(setMyDietBundleVisible({ myDietBundleVisible: true }));
-    dispatch(setAddNewBundleVisibleVisible({ addNewBundleVisible: false }));
-    dispatch(setViewMyBundleVisible({ viewMyBundleVisible: false }));
   };
 
   const handleRemoveFoodItem = (mealIndex, foodIndex) => {
@@ -67,8 +65,13 @@ const ViewMyBundle = () => {
       const updatedData = { ...prevData, meals: updatedMeals };
   
       // Dispatch the updated data (ensure Redux is syncing correctly)
-      dispatch(setviewMyBundleData({ viewMyBundleData: updatedData }));
-  
+      dispatch((_, getState) => {
+        const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+        dispatch(setCurrentBundleData({ 
+          currentBundleData: { ...currentBundleData, diet: updatedData } 
+        }));
+      });
+
       return updatedData;
     });
   };
@@ -81,7 +84,12 @@ const ViewMyBundle = () => {
       const updatedData = JSON.parse(JSON.stringify(prevData)); // Deep copy
       updatedData.meals[mealIndex].time = time;
 
-      dispatch(setviewMyBundleData({viewMyBundleData:updatedData}));
+      dispatch((_, getState) => {
+        const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+        dispatch(setCurrentBundleData({ 
+          currentBundleData: { ...currentBundleData, diet: updatedData } 
+        }));
+      });
 
       return updatedData;
     });
@@ -105,9 +113,7 @@ const ViewMyBundle = () => {
             const foodItem = updatedData.meals[mealIndex].foodItems[foodIndex];
             const multiplier = parseFloat((newQuantity / foodItem.intialData[0]).toFixed(2));
     
-            console.log("foodItem.intialData[0] : " + foodItem.intialData[0]);
-            console.log("multiplier : " + multiplier);
-    
+            
             // Update food item data
             foodItem.quantity = newQuantity;
             foodItem.protein = foodItem.intialData[1] * multiplier;
@@ -117,7 +123,12 @@ const ViewMyBundle = () => {
     
             // Check if there is a real change before dispatching
             if (JSON.stringify(prevData) !== JSON.stringify(updatedData)) {
-                dispatch(setviewMyBundleData({ viewMyBundleData: updatedData }));
+              dispatch((_, getState) => {
+                const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+                dispatch(setCurrentBundleData({ 
+                  currentBundleData: { ...currentBundleData, diet: updatedData } 
+                }));
+              });          
             }
     
             return updatedData;
@@ -126,7 +137,6 @@ const ViewMyBundle = () => {
 
     setDebounceTimeout(timeout); // Store the new timeout ID
 };
-  
 
   const handleUpdateBundle = () => {
 
@@ -139,11 +149,6 @@ const ViewMyBundle = () => {
 
     // Remove meals with zero food items
     updatedData.meals = updatedData.meals.filter(meal => meal.foodItems.length > 0);
-
-    if(updatedData.meals.length===0){
-      console.log("inside if no meals")
-      return;
-    }
 
     // Order meals according to time
     updatedData.meals.sort((a, b) => {
@@ -203,28 +208,24 @@ const ViewMyBundle = () => {
     updatedData.macros.calories = totalCalories;
 
     // Log the updated data (for debugging)
-    console.log("Updated Data:", JSON.stringify(updatedData));
+    
 
     // Update the state with corrected data if needed
     setData(updatedData);
+    dispatch((_, getState) => {
+      const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+      dispatch(setCurrentBundleData({ 
+        currentBundleData: { ...currentBundleData, diet: updatedData } 
+      }));
+    });
 
-    // API call to update the new bundle in backend (Example: axios call)
+    handleNavigateBackToMyDietBundle();
 
-    // Dispatch actions to update the visibility of components
-    dispatch(setMyDietBundleVisible({ myDietBundleVisible: true }));
-    dispatch(setAddNewBundleVisibleVisible({ addNewBundleVisible: false }));
-    dispatch(setViewMyBundleVisible({ viewMyBundleVisible: false }));
 };
-
-
-  
 
     const handleAddFoodItems = (addedFoodItems) => {
 
-        console.log("mealIndex: " + mealIndex);
-        console.log("Added Food Items: " + JSON.stringify(addedFoodItems));
-        console.log("Data before update: " + JSON.stringify(data));
-    
+       
         const updatedData = JSON.parse(JSON.stringify(data));
     
         updatedData.meals = updatedData.meals.map((meal, index) => {
@@ -236,34 +237,45 @@ const ViewMyBundle = () => {
             }
             return meal; 
         });
-    
-        setData(updatedData);
 
-        dispatch(setviewMyBundleData({viewMyBundleData:updatedData}));
+        setData(updatedData); 
+
+        dispatch((_, getState) => {
+          const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+          dispatch(setCurrentBundleData({ 
+            currentBundleData: { ...currentBundleData, diet: updatedData } 
+          }));
+        });
     
-        console.log("Data after update: " + JSON.stringify(updatedData));
+
     };
     
     const handleAddMeal = () => {
-        console.log("add meal");
+       
 
         const updatedData = JSON.parse(JSON.stringify(data));
 
         updatedData.meals.push({
-            name:`Meal ${viewMyBundleMealIndexData+1}`,
+            name:`Meal ${currentDietBundleIndexData+1}`,
             time:"00:00",
             foodItems:[]
         })
 
         setData(updatedData);
 
-        dispatch(setviewMyBundleData({viewMyBundleData:updatedData}));
-        dispatch(setviewMyBundleMealIndexData({viewMyBundleMealIndexData:(viewMyBundleMealIndexData+1)}));
+        dispatch((_, getState) => {
+          const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+          dispatch(setCurrentBundleData({ 
+            currentBundleData: { ...currentBundleData, diet: updatedData } 
+          }));
+        });
+        
+        dispatch(setCurrentDietBundleIndexData({currentDietBundleIndexData:(currentDietBundleIndexData+1)}));
 
     }
 
     const handleRemoveMeal = (mealIndex) => {
-        console.log("remove meal");
+       
 
         const updatedData = JSON.parse(JSON.stringify(data));
 
@@ -271,8 +283,13 @@ const ViewMyBundle = () => {
 
         setData(updatedData);
 
-        dispatch(setviewMyBundleData({viewMyBundleData:updatedData}));
-    }
+        dispatch((_, getState) => {
+          const currentBundleData = getState().customerDashBoard.currentBundleData; // Adjust path if needed
+          dispatch(setCurrentBundleData({ 
+            currentBundleData: { ...currentBundleData, diet: updatedData } 
+          }));
+        });      
+      }
 
     const handleFoodSearch = (index) => {
         setMealIndex(index);
@@ -290,7 +307,7 @@ const ViewMyBundle = () => {
       let totalFats = 0;
       let totalCalories = 0;
 
-      console.log("data : "+JSON.stringify(data));
+      
   
       // Iterate through the meals
       data.meals.forEach(meal => {
@@ -303,14 +320,16 @@ const ViewMyBundle = () => {
           });
       });
   
-      console.log("Total Macros for all meals:");
-      console.log("Protein: " + totalProtein);
-      console.log("Carbs: " + totalCarbs);
-      console.log("Fats: " + totalFats);
-      console.log("Calories: " + totalCalories);
+      
       setTotalMacros([totalProtein,totalCarbs,totalFats,totalCalories]);
       setShowTotalMacrosModal(true);
   };
+
+  const handleNavigateBackToMyDietBundle = () => {
+    dispatch(setIsCustomerDashBoardVisible({isCustomerDashBoardVisible:true}));
+    dispatch(setIsEditDietBundleVisible({isEditDietBundleVisible:false}));
+    dispatch(setIsEditWorkoutBundleVisible({isEditWorkoutBundleVisible:false}));
+}
 
   useEffect(()=>{
 
@@ -318,29 +337,26 @@ const ViewMyBundle = () => {
   
 
     useEffect(() => {
-        if (viewMyBundleData) {
-            setData(JSON.parse(JSON.stringify(viewMyBundleData))); // Deep copy during initialization
+        if (currentBundleData) {
+            setData(JSON.parse(JSON.stringify(currentBundleData.diet))); // Deep copy during initialization
         }
-    }, [viewMyBundleData]);  
+    }, [currentBundleData]);    
+
+    
 
   return (
-
     <div className="font-cursive bg-white p-2 rounded-md">
-      <div className="flex items-center">
-        <button
-          onClick={() => handleNavigateBackToMyDietBundle()}
-          className="border-2 border-black flex items-center justify-center text-red-500 bg-white hover:bg-red-200 rounded-md w-6 h-6 shadow-lg transition duration-200"
-        >
-          <IoArrowBack className="h-6 w-6" />
-        </button>
-        {data && (
-          <div className="text-lg ml-6 text-black">
-            {data.name}
+        <div className="flex items-center">
+            <button
+              onClick={() => handleNavigateBackToMyDietBundle()}
+              className="border-2 border-black flex items-center justify-center text-red-500 bg-white hover:bg-red-200 rounded-md w-6 h-6 shadow-lg transition duration-200"
+            >
+              <IoArrowBack className="h-6 w-6" />
+            </button>
+            
           </div>
-        )}
-      </div>
 
-      <div className='flex gap-x-2'>
+          <div className='flex gap-x-2'>
       <button
           className="mt-4 border-2 border-black flex items-center justify-center rounded-md p-1 text-sm text-black bg-green-500"
           onClick={handleAddMeal}>
@@ -483,10 +499,9 @@ const ViewMyBundle = () => {
           </div> 
         </div>
       }
-      
-      
-    </div>
-  );
-};
 
-export default ViewMyBundle;
+    </div>
+  )
+}
+
+export default DietBundleData;

@@ -188,6 +188,7 @@ const WorkoutBundle = () => {
     
       const handleUpdateBundle = () => {
         
+        console.log("current bundle : "+JSON.stringify(selectedMyWorkoutBundleData));
         const updatedBundle = JSON.parse(JSON.stringify(selectedMyWorkoutBundleData));
         updatedBundle.selectedExercises = selectedExercises;
         console.log("updated bundle : "+JSON.stringify(updatedBundle));

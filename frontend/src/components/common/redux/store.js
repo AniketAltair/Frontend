@@ -8,7 +8,8 @@ import gymDetailsReducer from "./slice/gymDetailsSlice";
 import trainerDetailsReducer from "./slice/trainerDetailsSlice";
 import dietBundleReducer from "./slice/dietBundleSlice";
 import myDietBundleReducer from "./slice/myDietBundleSlice";
-import exercisesReducer from "./slice/exercisesSlice"
+import exercisesReducer from "./slice/exercisesSlice";
+import customerDashBoardReducer from "./slice/customerDashBoardSlice";
 
 const store = configureStore({
     reducer:{
@@ -21,7 +22,8 @@ const store = configureStore({
         trainerDetails : trainerDetailsReducer,
         dietBundle : dietBundleReducer,
         myDietBundle : myDietBundleReducer,
-        exercises : exercisesReducer
+        exercises : exercisesReducer,
+        customerDashBoard : customerDashBoardReducer
     }
 })
 

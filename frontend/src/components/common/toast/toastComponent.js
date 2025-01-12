@@ -1,20 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const ToastComponent = ({toastMessage,toastVisible,istoastValidtype}) => {
+const ToastComponent = ({ toastMessage, toastVisible, istoastValidtype }) => {
+
+
   return (
     <>
-    {toastVisible && (
+      {toastVisible && (
         <div
-        className={`fixed top-[75px] right-1 px-4 py-2 rounded-lg shadow-lg ${
-          istoastValidtype ? "bg-green-500 text-white" : "bg-red-500 text-white"
-        }`}
-      >
-        {toastMessage}
-      </div>
-      
+          className={`z-[40] fixed top-[75px] right-1 px-4 py-2 rounded-lg shadow-lg ${
+            istoastValidtype ? "bg-green-500 text-white" : "bg-red-500 text-white"
+          }`}
+        >
+          {toastMessage}
+        </div>
       )}
     </>
-  )
+  );
 }
 
 export default ToastComponent;

@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 const DietBundleComponent = ({ index, data, handleNavigateToViewMyBundle,handleRemoveBundle,handleOpenModal }) => {
 
-  const handleAddBundleClick = () => {
-  };
-
   return (
     <div className="flex-none w-[65%] sm:w-[20%] p-2 mx-2 bg-white shadow-2xl rounded-lg border-2 border-red-500">
         <div className='py-2 text-black'>

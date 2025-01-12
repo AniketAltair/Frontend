@@ -52,6 +52,8 @@ const CreateWorkoutBundles = () => {
   const {bundleNameState,selectedExercisesState} = useSelector((state)=>(state.exercises)); 
 
   const handleUpdateNewExercises = (searchValue, filterValue) => {
+
+    // Api call to set new exercises
     console.log('searchterm : ' + searchValue);
     console.log('filters : ' + filterValue);
   };

@@ -17,6 +17,7 @@ const MyDietBundles = () => {
 
   const bundlesFromBackend = [
     {
+      id:1,
       name:"Bundle 1",
       macros:{
           protein:150,
@@ -60,6 +61,7 @@ const MyDietBundles = () => {
       ]
     },
     {
+      id:2,
       name:"Bundle 2",
       macros:{
           protein:180,
