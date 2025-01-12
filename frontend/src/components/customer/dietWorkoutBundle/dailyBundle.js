@@ -116,7 +116,8 @@ const DailyBundle = ({
   myWorkoutBundlesData,
   setToastMessage,
   setIsToastVisible,
-  setIsToastValidType
+  setIsToastValidType,
+  setBundleDataChanged
  }) => {
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -249,7 +250,8 @@ const DailyBundle = ({
     // API call to save latest bundle for diet, workout and sleep and given date.
     console.log(selectedDate);
     console.log(JSON.stringify(currentBundleData))
-    
+
+    setBundleDataChanged((prev)=>(!prev));
   }
 
   const handleOpenMyDietBundlesModal = () => {

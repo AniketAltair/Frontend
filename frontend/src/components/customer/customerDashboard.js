@@ -213,28 +213,6 @@ const initialMyWorkoutBundles = [
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const initialGraphData = {
-  diet: {
-    protein: Array.from({ length: 60 }, () => getRandomInt(0, 180)),
-    carbs: Array.from({ length: 60 }, () => getRandomInt(0, 250)),
-    fats: Array.from({ length: 60 }, () => getRandomInt(0, 100)),
-    calories: Array.from({ length: 60 }, () => getRandomInt(0, 2500))
-  },
-  workout: {
-    benchPress: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    latpullDown: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    bicepCurl: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    tricepPushDown: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    barbellSquats: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    threadmill: { unit: 's', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
-    cycle: { unit: 's', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) }
-  },
-  sleep: Array.from({ length: 60 }, () => getRandomInt(0, 24))
-};
-
-console.log(initialGraphData);
-
-
 const CustomerDashBoardComponent = ({ 
   previousScrollPositionRef,
   messages,
@@ -242,7 +220,9 @@ const CustomerDashBoardComponent = ({
   userPersonalStats,
   settingsData,
   myDietBundlesData,
-  myWorkoutBundlesData,graphData
+  myWorkoutBundlesData,
+  graphData,
+  setBundleDataChanged
  }) => {
   
 
@@ -309,14 +289,16 @@ const CustomerDashBoardComponent = ({
         setToastMessage={setToastMessage}
         setIsToastVisible={setToastVisible}
         setIsToastValidType={setIsToastValidType}
+        setBundleDataChanged={setBundleDataChanged}
         />
       }
 
-      {graphData && 
+      {graphData &&
         <Graph
           graphData={graphData}
-        />
+        /> 
       }
+       
     </div>
   );
 };
@@ -329,7 +311,8 @@ const CustomerDashBoard = () => {
   const [settingsData, setSettingsData] = useState({});
   const [myDietBundles, setMyDietBundles] = useState(null);
   const [myWorkoutBundles, setMyWorkoutBundles] = useState(null);
-  const [graphData,setGraphData] = useState(null);
+  const [bundleDataChanged, setBundleDataChanged] = useState(false);
+  const [graphData,setGraphData] = useState({diet:{},workout:{},sleep:[]});
 
   const {
     isCustomerDashBoardVisible,
@@ -341,6 +324,33 @@ const CustomerDashBoard = () => {
   const previousScrollPositionRef = useRef(0);
 
   useEffect(()=>{
+    console.log("graph data fetch");
+    
+    const updatedgraphdata = {
+      diet: {
+        protein: Array.from({ length: 60 }, () => getRandomInt(0, 180)),
+        carbs: Array.from({ length: 60 }, () => getRandomInt(0, 250)),
+        fats: Array.from({ length: 60 }, () => getRandomInt(0, 100)),
+        calories: Array.from({ length: 60 }, () => getRandomInt(0, 2500))
+      },
+      workout: {
+        benchPress: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        latpullDown: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        bicepCurl: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        tricepPushDown: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        barbellSquats: { unit: 'kgs', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        threadmill: { unit: 's', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) },
+        cycle: { unit: 's', data: Array.from({ length: 60 }, () => getRandomInt(0, 100)) }
+      },
+      sleep: Array.from({ length: 60 }, () => getRandomInt(0, 24))
+    };
+
+    // API call to set all graph data
+    setGraphData(updatedgraphdata);
+
+  },[bundleDataChanged])
+
+  useEffect(()=>{
     // API call to set all data
     console.log("initialLoad CustomerDashBoard");
     setMessages(initialMessages);
@@ -349,7 +359,6 @@ const CustomerDashBoard = () => {
     setSettingsData(initalSettingsData);
     setMyDietBundles(initialMyDietBundles);
     setMyWorkoutBundles(initialMyWorkoutBundles);
-    setGraphData(initialGraphData);
   },[]);
 
   return (
@@ -364,6 +373,7 @@ const CustomerDashBoard = () => {
           myDietBundlesData={myDietBundles}
           myWorkoutBundlesData={myWorkoutBundles}
           graphData={graphData}
+          setBundleDataChanged={setBundleDataChanged}
           />
       )}
       {isEditDietBundleVisible && <DietBundleData />}

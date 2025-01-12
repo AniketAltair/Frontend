@@ -23,7 +23,7 @@ const DietBundleComponent = ({ index, data,onClose }) => {
 
   return (
     <div 
-      className="flex-none w-[65%] sm:w-[20%] p-2 mx-2 bg-white shadow-2xl rounded-lg border-2 border-red-500"
+      className="flex-none w-[65%] sm:w-[65%] p-2 mx-2 bg-white shadow-2xl rounded-lg border-2 border-red-500"
       onClick={handleChangeBundle}>
         <div className='py-2 text-black'>
             <u>{data.name}</u>
