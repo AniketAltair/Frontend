@@ -265,7 +265,7 @@ const Planner = () => {
         <CalendarComponent
           isOpen={isCalendarOpen}
           selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+          handleChangeDate={setSelectedDate}
           dates={dates}
           rows={calendarRows}
           onClose={() => setIsCalendarOpen(false)}

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./i18n/i18n"; 
 
 import Navbar from "./components/navbar/navbar";
@@ -38,8 +38,8 @@ import TransactionHistoryComponentPremium from "./components/services/premium/tr
 import PaymentComponent from "./components/services/premium/paymentComponent";
 import { TranslationProvider } from './components/common/translationContext/translationContext';
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import {Provider} from "react-redux";
-import {LoadScript} from "@react-google-maps/api"
+import { Provider } from "react-redux";
+import { LoadScript } from "@react-google-maps/api";
 
 import Role from "./components/auth/role";
 import store from "./components/common/redux/store";
@@ -47,96 +47,108 @@ import RecommendationSolution from "./components/services/recommendations/recomm
 import GymDetails from "./components/services/findGyms/gym/gymDetails";
 import Trainers from "./components/services/findGyms/trainer/trainers";
 import TrainerDetails from "./components/services/findGyms/trainer/trainerDetails";
+import NotFound from "./components/common/notFound.js/notFound";
 
 export default function App() {
-
   const CLIENT_ID = "807754317749-0dipdsikvecv8v44j0sp6mdh5gje1cie.apps.googleusercontent.com";
+  const location = useLocation();
+
+  // ✅ Full list of valid paths
+  const validPaths = new Set([
+    "/",
+    "/signin", "/signup", "/forgotpassword", "/signup/role",
+    "/aboutapp", "/contactsupport", "/settings", "/messages", "/profile",
+    "/gympanel", "/inspectorpanel", "/trainerpanel",
+    "/foodinventory", "/gyminventory", "/admindashboard", "/notifications",
+    "/plans", "/plans/transactionhistory", "/userpanel",
+    "/inspectgyms",
+    "/equipments", "/gymdashboard", "/mycode",
+    "/trainers", "/allgyms", "/trainerdashboard",
+    "/customerdashboard",
+    "/diet", "/workouts", "/planner",
+    "/recommendations", "/recommendations/recommendationsolution",
+    "/findgyms", "/findgyms/gymdetails", "/findgyms/trainers",
+    "/findgyms/trainerdetails",
+    "/premium", "/premium/transactionhistory", "/premium/buynow"
+  ]);
+
+  const showNavbar = validPaths.has(location.pathname);
 
   return (
-    <>
     <Provider store={store}>
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
-    <TranslationProvider>
-    <LoadScript googleMapsApiKey="AIzaSyB3VRFgELNm7pRLDijBBR-iQp7SiFSqMT0">
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
+        <TranslationProvider>
+          <LoadScript googleMapsApiKey="AIzaSyB3VRFgELNm7pRLDijBBR-iQp7SiFSqMT0">
 
-    <Navbar/>
-    <Assistant/>
-    
-    <Routes>
-      
-      {/* Default Path */}
-      <Route path="/" element={<AboutApp/>}/>
+            {showNavbar && <Navbar />}  {/* ✅ Navbar only on valid paths */}
+            <Assistant />
 
-      {/* Auth Paths */}
-      <Route path="/signin" element={<SignIn/>}/>
-      <Route path="/signup" element={<SignUp/>}/>
-      <Route path="/forgotpassword" element={<ForgotPassword/>}/>
-      <Route path="/signup/role" element={<Role/>}/>
+            <Routes>
+              {/* Default Path */}
+              <Route path="/" element={<AboutApp />} />
 
-      {/* Common pages path*/}
-      <Route path="/aboutapp" element={<AboutApp/>}/>
-      <Route path="/contactsupport" element={<ContactSupport/>}/>
-      <Route path="/settings" element={<Settings/>}/>
-      <Route path="/messages" element={<Messages/>}/>
-      <Route path="/profile" element={<Profile/>}/>
+              {/* Auth Paths */}
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/signup/role" element={<Role />} />
 
-      {/* Admin Paths */}
-      <Route path="/gympanel" element={<GymPanel/>}/>
-      <Route path="/inspectorpanel" element={<InspectorPanel/>}/>
-      <Route path="/trainerpanel" element={<TrainerPanel/>}/>
-      <Route path="/foodinventory" element={<FoodInventory/>}/>
-      <Route path="/gyminventory" element={<GymInventory/>}/>
-      <Route path="/admindashboard" element={<AdminDashboard/>}/>
-      <Route path="/notifications" element={<Notifications/>}/>
-      <Route path="/plans" element={<Plans/>}/>
-      <Route path="/plans/transactionhistory" element={<TransactionHistoryComponent/>}/>
-      <Route path="/userpanel" element={<UserPanel/>}/>
+              {/* Common pages */}
+              <Route path="/aboutapp" element={<AboutApp />} />
+              <Route path="/contactsupport" element={<ContactSupport />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
 
-      {/* Inpector Paths */}
-      <Route path="/inspectgyms" element={<InspectGyms/>}/>
+              {/* Admin Paths */}
+              <Route path="/gympanel" element={<GymPanel />} />
+              <Route path="/inspectorpanel" element={<InspectorPanel />} />
+              <Route path="/trainerpanel" element={<TrainerPanel />} />
+              <Route path="/foodinventory" element={<FoodInventory />} />
+              <Route path="/gyminventory" element={<GymInventory />} />
+              <Route path="/admindashboard" element={<AdminDashboard />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/plans" element={<Plans />} />
+              <Route path="/plans/transactionhistory" element={<TransactionHistoryComponent />} />
+              <Route path="/userpanel" element={<UserPanel />} />
 
-      {/* Gym Paths */}
-      <Route path="/equipments" element={<Equipments/>}/>
-      <Route path="/gymdashboard" element={<GymDashBoard/>}/>
-      <Route path="/mycode" element={<MyCode/>}/>
-      <Route path="/trainers" element={<Trainers/>}/>
+              {/* Inspector Paths */}
+              <Route path="/inspectgyms" element={<InspectGyms />} />
 
-      {/* Trainer Paths */}
-      <Route path="/allgyms" element={<AllGyms/>}/>
-      <Route path="/trainerdashboard" element={<TrainerDashBoard/>}/>
+              {/* Gym Paths */}
+              <Route path="/equipments" element={<Equipments />} />
+              <Route path="/gymdashboard" element={<GymDashBoard />} />
+              <Route path="/mycode" element={<MyCode />} />
 
-      {/* Customer Paths */}
-      <Route path="/customerdashboard" element={<CustomerDashBoard/>}/>
+              {/* Trainer Paths */}
+              <Route path="/trainers" element={<Trainers />} />
+              <Route path="/allgyms" element={<AllGyms />} />
+              <Route path="/trainerdashboard" element={<TrainerDashBoard />} />
 
-      {/* Services Paths */}
-      <Route path="/diet" element={<Diet/>}/>
+              {/* Customer Paths */}
+              <Route path="/customerdashboard" element={<CustomerDashBoard />} />
 
-      <Route path="/workouts" element={<Workouts/>}/>
+              {/* Services Paths */}
+              <Route path="/diet" element={<Diet />} />
+              <Route path="/workouts" element={<Workouts />} />
+              <Route path="/planner" element={<Planner />} />
+              <Route path="/recommendations" element={<Recommendations />} />
+              <Route path="/recommendations/recommendationsolution" element={<RecommendationSolution />} />
+              <Route path="/findgyms" element={<FindGyms />} />
+              <Route path="/findgyms/gymdetails" element={<GymDetails />} />
+              <Route path="/findgyms/trainers" element={<Trainers />} />
+              <Route path="/findgyms/trainerdetails" element={<TrainerDetails />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/premium/transactionhistory" element={<TransactionHistoryComponentPremium />} />
+              <Route path="/premium/buynow" element={<PaymentComponent />} />
 
+              <Route path="*" element={<NotFound />} />
 
-      <Route path="/planner" element={<Planner/>}/>
+            </Routes>
 
-
-      <Route path="/recommendations" element={<Recommendations/>}/>
-      <Route path="/recommendations/recommendationsolution" element={<RecommendationSolution/>}/>
-
-
-      <Route path="/findgyms" element={<FindGyms/>}/>
-      <Route path="/findgyms/gymdetails" element={<GymDetails/>}/>
-      <Route path="/findgyms/trainers" element={<Trainers/>}/>
-      <Route path="/findgyms/trainerdetails" element={<TrainerDetails/>}/>
-
-
-      <Route path="/premium" element={<Premium/>}/>
-      <Route path="/premium/transactionhistory" element={<TransactionHistoryComponentPremium/>}/>
-      <Route path="/premium/buynow" element={<PaymentComponent/>}/>
-      
-    </Routes>
-
-    </LoadScript>
-    </TranslationProvider>
-    </GoogleOAuthProvider>
+          </LoadScript>
+        </TranslationProvider>
+      </GoogleOAuthProvider>
     </Provider>
-    </>
   );
 }
